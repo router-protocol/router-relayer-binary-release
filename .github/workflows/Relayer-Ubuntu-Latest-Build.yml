@@ -36,7 +36,7 @@ jobs:
           git config user.name "Router Protocol"
           git config user.email "infra@routerprotocol.com"
           git tag ${{ github.event.inputs.version }}
-          make build
+          make build-local
           mkdir -p ${{ github.workspace }}/router-chain-binaries/
           tar -czvf router-relayer.tar.gz router-relayer
           mv router-relayer.tar.gz ${{ github.workspace }}/router-chain-binaries/
