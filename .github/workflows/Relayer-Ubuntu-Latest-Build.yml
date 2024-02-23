@@ -36,6 +36,8 @@ jobs:
           git config user.name "Router Protocol"
           git config user.email "infra@routerprotocol.com"
           git tag ${{ github.event.inputs.version }}
+          git pull
+          git log --format="%H" -n 1
           make build-local
           mkdir -p ${{ github.workspace }}/router-chain-binaries/
           tar -czvf router-relayer.tar.gz router-relayer
@@ -72,7 +74,7 @@ jobs:
           mkdir -p linux
           mv ${{ github.workspace }}/router-chain-binaries/router-relayer.tar.gz ./linux/
           git add linux/router-relayer.tar.gz
-          git commit -m "Latest orchestrator executable updated: $(date +'%Y-%m-%d %H:%M:%S')"
+          git commit -m "Latest relayer executable updated: $(date +'%Y-%m-%d %H:%M:%S')"
           git push
 
   tag-release:
