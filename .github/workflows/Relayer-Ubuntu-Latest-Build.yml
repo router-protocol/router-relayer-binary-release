@@ -37,8 +37,9 @@ jobs:
           git config user.email "infra@routerprotocol.com"
           git tag ${{ github.event.inputs.version }}
           git pull
-          git log --format="%H" -n 1
+          echo "Latest commit hash: $(git log --format="%H" -n 1)"
           make build-local
+          rm -rf ${{ github.workspace }}/router-chain-binaries/
           mkdir -p ${{ github.workspace }}/router-chain-binaries/
           tar -czvf router-relayer.tar.gz router-relayer
           mv router-relayer.tar.gz ${{ github.workspace }}/router-chain-binaries/
@@ -69,9 +70,9 @@ jobs:
           git config --global url."https://ganesh_bhagi:${{secrets.USER_GITHUB_TOKEN}}@github.com/".insteadOf "https://github.com/"
           git config user.name "Router Protocol"
           git config user.email "infra@routerprotocol.com"
-          ls -al
-          echo "PWD: $(pwd)"
           mkdir -p linux
+          echo "SHA256 checksum for the binary: $(sha256sum ${{ github.workspace }}/router-chain-binaries/router-relayer.tar.gz)"
+          git rm -rf linux/router-relayer.tar.gz
           mv ${{ github.workspace }}/router-chain-binaries/router-relayer.tar.gz ./linux/
           git add linux/router-relayer.tar.gz
           git commit -m "Latest relayer executable updated: $(date +'%Y-%m-%d %H:%M:%S')"
