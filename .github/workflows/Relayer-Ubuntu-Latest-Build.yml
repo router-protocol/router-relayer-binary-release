@@ -72,7 +72,7 @@ jobs:
           git config user.email "infra@routerprotocol.com"
           mkdir -p linux
           echo "SHA256 checksum for the binary: $(sha256sum ${{ github.workspace }}/router-chain-binaries/router-relayer.tar.gz)"
-          git rm -rf linux/router-relayer.tar.gz
+          rm linux/router-relayer.tar.gz
           mv ${{ github.workspace }}/router-chain-binaries/router-relayer.tar.gz ./linux/
           git add linux/router-relayer.tar.gz
           git commit -m "Latest relayer executable updated: $(date +'%Y-%m-%d %H:%M:%S')"
