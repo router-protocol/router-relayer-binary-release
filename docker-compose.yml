@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  router-relayer:
+    image: router-relayer-image
+    ports:
+      - 8002:8002
+    volumes:
+      - ./config.json:/src/config.json
