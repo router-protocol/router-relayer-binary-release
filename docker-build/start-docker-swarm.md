@@ -21,14 +21,13 @@ docker swarm init
 
 ### Setting Up Secrets
 
-Store your Cosmos and Ethereum private keys as Docker secrets:
+Store your Bitcoin private keys as Docker secrets:
 
 ```bash
-echo <COSMOS_PRIVATE_KEY> | docker secret create COSMOS_PRIVATE_KEY -
-echo <ETH_PRIVATE_KEY> | docker secret create ETH_PRIVATE_KEY -
+echo <BITCOIN_PRIVATE_KEY> | docker secret create BITCOIN_PRIVATE_KEY -
 ```
 
-Replace `<COSMOS_PRIVATE_KEY>` and `<ETH_PRIVATE_KEY>` with your actual private keys.
+Replace `<BITCOIN_PRIVATE_KEY>` with your actual private keys.
 
 ## Service Creation
 
@@ -39,8 +38,7 @@ docker service create
 --name router_relayer_mainnet_service
 --restart-condition on-failure
 --restart-delay 10s
---secret source=ETH_PRIVATE_KEY,target=ETH_PRIVATE_KEY
---secret source=COSMOS_PRIVATE_KEY,target=COSMOS_PRIVATE_KEY
+--secret source=BITCOIN_PRIVATE_KEY,target=BITCOIN_PRIVATE_KEY
 --mount type=bind,source=/Users/ganesh/repos/dfyn/router-chain/router-orchestrator/config.json,target=/router/config.json,readonly
 --entrypoint "router-relayer /src/config.json"
 -p 8002:8002

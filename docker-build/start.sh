@@ -14,13 +14,10 @@ else
 fi
 
 IMAGE_NAME="router_relayer_image"
-ETH_PRIVATE_KEY_SECRET_NAME_DEFAULT="ETH_PRIVATE_KEY"
-COSMOS_PRIVATE_KEY_SECRET_NAME_DEFAULT="COSMOS_PRIVATE_KEY"
-ETH_PRIVATE_KEY_SECRET_NAME="${3:-$ETH_PRIVATE_KEY_SECRET_NAME_DEFAULT}"
-COSMOS_PRIVATE_KEY_SECRET_NAME="${4:-$COSMOS_PRIVATE_KEY_SECRET_NAME_DEFAULT}"
+BITCOIN_PRIVATE_KEY_SECRET_NAME_DEFAULT="BITCOIN_PRIVATE_KEY"
+BITCOIN_PRIVATE_KEY_SECRET_NAME="${3:-$BITCOIN_PRIVATE_KEY_SECRET_NAME_DEFAULT}"
 
-echo "ETH_PRIVATE_KEY_SECRET_NAME: ${ETH_PRIVATE_KEY_SECRET_NAME}"
-echo "COSMOS_PRIVATE_KEY_SECRET_NAME: ${COSMOS_PRIVATE_KEY_SECRET_NAME}"
+echo "BITCOIN_PRIVATE_KEY_SECRET_NAME: ${BITCOIN_PRIVATE_KEY_SECRET_NAME}"
 
 if ! docker image ls | grep -q "${IMAGE_NAME}"; then
     echo "Image ${IMAGE_NAME} does not exist. Please build it first."
@@ -55,8 +52,7 @@ docker service create \
     --restart-condition on-failure \
     --restart-delay 10s \
     --limit-cpu 6 \
-    --secret source="${ETH_PRIVATE_KEY_SECRET_NAME}",target=ETH_PRIVATE_KEY \
-    --secret source="${COSMOS_PRIVATE_KEY_SECRET_NAME}",target=COSMOS_PRIVATE_KEY \
+    --secret source="${BITCOIN_PRIVATE_KEY_SECRET_NAME}",target=BITCOIN_PRIVATE_KEY \
     --mount type=bind,source="${CONFIG_FILE_PATH}",target=/src/config.json,readonly \
     --entrypoint "router-relayer /src/config.json" \
     -p "${HEALTH_CHECK_PORT}":8002 \
